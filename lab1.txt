@@ -1,1 +1,0 @@
-The request handling pipeline is composed as a series of middleware components. For example, a middleware might handle requests for static files or redirect HTTP requests to HTTPS. 
