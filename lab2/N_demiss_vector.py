@@ -1,7 +1,8 @@
 class NVector(object):
 
     def __init__(self, vect):
-        self.v = vect
+        if isinstance(vect, list):
+            self.v = vect
 
     def __add__(self, other):
         if len(self.v) == len(other):
@@ -32,6 +33,4 @@ class NVector(object):
         l = list(self.v)
         return l[numb]
 
-a = NVector([1,2,3,4])
-print(a + [1, 2, 3, 4])
-print(a - [2, 2, 2, 2])
+ 

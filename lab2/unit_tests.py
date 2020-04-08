@@ -58,4 +58,4 @@ class test(unittest.TestCase):
         self.assertEqual(test_vect.__str__(), vect.__const_mull__(1).__str__())
 
     def test_large_sort(self):
-        self.assertEqual(arr.sort(),sort.sort('numbers.txt'))
+        self.assertEqual(arr.sort(), sort.sort('numbers.txt'))

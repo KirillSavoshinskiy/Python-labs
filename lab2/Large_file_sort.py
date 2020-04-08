@@ -5,9 +5,10 @@ from Sort import Sorting
 
 class Large_file_sort(object):
     __temp_arr = []
-    __number_of_lines = 10000
+    __number_of_lines = 10
     __name_of_files = []
     __count = 1
+    __sort = Sorting()
 
     def sort(self, file_name):
         self.__read_file(file_name)
@@ -21,7 +22,7 @@ class Large_file_sort(object):
                 self.__count += 1
                 if self.__count > self.__number_of_lines:
                     with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp:
-                        arr = Sorting.merge_sort(self.__temp_arr)
+                        arr = self.__sort.merge_sort(self.__temp_arr)
                         temp.writelines(f'{i}\n' for i in arr)
                         self.__name_of_files.append(temp)
                     self.__temp_arr.clear()
@@ -67,3 +68,11 @@ class Large_file_sort(object):
             for i in temp:
                 f.writelines(i)
         self.__del_files(temp_file)
+
+
+import random
+with open('numbers.txt', 'w') as f:
+    f.writelines('{}\n'.format(random.randint(-100, 100)) for _ in range(50))
+
+a= Large_file_sort()
+a.sort("numbers.txt")
