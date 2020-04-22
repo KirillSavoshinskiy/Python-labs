@@ -1,0 +1,24 @@
+{% extends "carSale/wrapper.html" %}
+
+
+{% block content %}
+    <h1 class="col-md-4">Автомобили</h1>
+
+        <ul>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        {% csrf_token %}
+                        <li>{{ car.company.name }} {{ car.name_model }}</li>
+                        <li>{{ car.body.body_type }}</li>
+                        <li>{{ car.engine.engine_type }}</li>
+                        <li>{{ car.price }}</li>
+                        <img class="img-thumbnail" width="200"  src="{{ MEDIA_URL }}{{ car.img.url }}" >
+                    </div>
+                </div>
+            </div>
+
+        </ul>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "carSale/wrapper.html" %}
+
+
+{% block content %}
+    <h1 class="col-md-4">Автомобили</h1>
+    {% if car_list %}
+        <ul>
+        {% for car in car_list %}
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        {% csrf_token %}
+                        <li><a href="{% url 'car-detail' car.pk %}">{{ car.company.name }} {{ car.name_model }}</a></li>
+                        {% if car.img %}
+                        <img class="img-thumbnail" width="200"  src="{{ MEDIA_URL }}{{ car.img.url }}" >
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no cars in DB</p>
+    {% endif %}
+{% endblock %}
