@@ -2,23 +2,53 @@
 
 
 {% block content %}
-    <h1 class="col-md-4">Автомобили</h1>
+    <h1 class="col-md-4" xmlns="http://www.w3.org/1999/html">Автомобили</h1>
     {% if car_list %}
-        <ul>
+        <style>
+            figure {
+                width: 100%; /* Ширина */
+                float: left; /* Выстраиваем элементы по горизонтали */
+                margin: 0 0 0 3.5%; /* Отступ слева */
+                background: #f0f0f0; /* Цвет фона */
+                border-radius: 5px; /* Радиус скругления */
+                padding: 2%; /* Поля */
+            }
+
+            figure:first-child {
+                margin-left: 0; /* Убираем отступ для первого элемента */
+            }
+        </style>
+
         {% for car in car_list %}
+            {% if car %}
+            <div class="album py5 bg-light">
             <div class="container">
-                <div class="row">
-                    <div class="col">
-                        {% csrf_token %}
-                        <li><a href="{% url 'car-detail' car.pk %}">{{ car.company.name }} {{ car.name_model }}</a></li>
-                        {% if car.img %}
-                        <img class="img-thumbnail" width="200"  src="{{ MEDIA_URL }}{{ car.img.url }}" >
-                        {% endif %}
+                <div class="col bg-light ">
+                    <div class="col md-1">
+                        <div class="card md-4 box-shadow">
+                            {% if car.img %}
+                                <figure>
+                                    <img class="card-img-top" alt="Thumbnail [100%x225]" style="border-radius: 5px;height: 460px; width: 100%;
+                                display:flow-root" src="{{car.img.url}}">
+                                </figure>
+                            {% endif %}
+                            <div class="card-body">
+                                <p class="card-text"> {{ car.company.name }} {{ car.name_model }}  </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                                href="{% url 'car-detail' car.pk %}">Подробнее</a></button>
+                                    </div>
+                                    <small class="text-muted">{{car.price}}$</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
-        </ul>
+
     {% else %}
         <p>There are no cars in DB</p>
     {% endif %}

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from my_apps.carSale.models import Company, EngineType, BodyType, Car
 from django.urls import reverse
+from my_apps.carSale.forms import LoginForm
 
 
 class CarListViewTest(TestCase):
@@ -37,9 +38,13 @@ class UserTest(TestCase):
         self.test_user1 = User.objects.create_user(username='testuser1', password='12345')
         self.test_user1.save()
 
-    def test_login_post(self):
+    def test_login(self):
         resp = self.client.post(reverse('login'), {'username': self.test_user1.username, 'password': '12345'})
         self.assertRedirects(resp, '/')
+
+    def test_login_html(self):
+        resp = self.client.get('/login/')
+        self.assertEqual(resp.status_code, 200)
 
     def test_fail_login(self):
         resp = self.client.post(reverse('login'), {'username': self.test_user1.username, 'password': '12355'})

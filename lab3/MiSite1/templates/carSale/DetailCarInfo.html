@@ -2,23 +2,58 @@
 
 
 {% block content %}
-    <h1 class="col-md-4">Автомобили</h1>
+    <style>
+        figure {
+            width: 100%; /* Ширина */
+            float: left; /* Выстраиваем элементы по горизонтали */
+            margin: 0 0 0 3.5%; /* Отступ слева */
+            background: #f0f0f0; /* Цвет фона */
+            border-radius: 5px; /* Радиус скругления */
+            padding: 2%; /* Поля */
+        }
 
-        <ul>
-
-            <div class="container">
-                <div class="row">
+        figure:first-child {
+            margin-left: 0; /* Убираем отступ для первого элемента */
+        }
+    </style>
+    {% if car %}
+        <div class="container  bg-light" style="border-radius: 5px;">
+            <div class="row">
+                <div class="row  box-shadow">
                     <div class="col">
-                        {% csrf_token %}
-                        <li>{{ car.company.name }} {{ car.name_model }}</li>
-                        <li>{{ car.body.body_type }}</li>
-                        <li>{{ car.engine.engine_type }}</li>
-                        <li>{{ car.price }}</li>
-                        <img class="img-thumbnail" width="200"  src="{{ MEDIA_URL }}{{ car.img.url }}" >
+                        <ul class="card-body">
+                            <h5 class="card-header-tabs">Год:</h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs">Пробег:</h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs">Кузов:</h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs">Двигатель:</h5>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="card-body">
+                            <h5 class="card-header-tabs"> </h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs"> </h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs"> {{ car.body }}</h5>
+                            <h5></h5>
+                            <h5 class="card-header-tabs"> {{ car.engine }}</h5>
+                        </ul>
                     </div>
                 </div>
-            </div>
 
-        </ul>
+                <div class="col">
+                    {% if car.img %}
+                                <figure>
+                                    <img class="card-img-top" alt="Thumbnail [100%x225]" style="border-radius: 5px;height: 460px; width: 100%;
+                                display:flow-root" src="{{ car.img.url }}">
+                                </figure>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}
