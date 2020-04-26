@@ -1,5 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
 from django.urls import reverse
 
 
@@ -36,11 +35,13 @@ class Car(models.Model):
     description = models.TextField(null=True)
     img = models.ImageField(upload_to='images/', null=True, blank=True)
     price = models.IntegerField(null=True)
+    year = models.DateField(null=True)
+    mileage = models.IntegerField()
+    engine_volume = models.FloatField()
+    phone_number = models.CharField(max_length=19)
 
     def __str__(self):
         return self.name_model
 
     def get_absolute_url(self):
         return reverse('car-detail', args=[str(self.id)])
-
-

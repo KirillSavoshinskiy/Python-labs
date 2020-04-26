@@ -20,8 +20,8 @@ class CarListViewTest(TestCase):
         number_cars = 15
         for car in range(number_cars):
             Car.objects.create(company=company, name_model='M5', engine=engine_type_obj, body=body_type_obj,
-                               description='qwer', img='images/bmw.png',
-                               price=10)
+                               description='qwer', img='images/nissan-patrol-gr-5-door-24.jpg',
+                               price=10,mileage=100,engine_volume=3.0,phone_number='+37533222')
 
     def test_view_url_exist(self):
         resp = self.client.get('')

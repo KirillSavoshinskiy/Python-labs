@@ -1,0 +1,14 @@
+{% extends "carSale/wrapper.html" %}
+
+
+{% block content %}
+    <form style="margin: 0 0 0 3%;" enctype="multipart/form-data" action method="POST" class="post-form"
+          id="">{% csrf_token %}
+        <div class="card shadow">
+            <div style="padding: 3%">
+                {{ car_form.as_p }}
+                <input type="submit" value="Save" class="default" name="_save">
+            </div>
+        </div>
+    </form>
+{% endblock %}

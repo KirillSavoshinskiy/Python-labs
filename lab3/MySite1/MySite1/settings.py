@@ -1,11 +1,12 @@
-import os
-import sys
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from django.urls import reverse_lazy
 
+import sys
+import os
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'my_apps'))
+
 
 IMAGE_DIR = os.path.join(BASE_DIR, 'images')
 IMAGE_ROOT = IMAGE_DIR
@@ -14,16 +15,19 @@ IMAGE_URL = '/images/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'carSale/static/')
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-y+kj-tkm(iq%ns1y-b#%6e=@l*o%80_vk174x7bbyryrh!u4%'
+SECRET_KEY = '!8@dl2(+6do@ystks$)gi8+(qd3(1%9%2e#h84hgq_3t^xm%b+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -35,11 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
 ]
 
 MIDDLEWARE = [
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MiSite1.urls'
+ROOT_URLCONF = 'MySite1.urls'
 
 TEMPLATES = [
     {
@@ -68,15 +70,20 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MiSite1.wsgi.application'
+WSGI_APPLICATION = 'MySite1.wsgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'carSaleDB',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -98,10 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-Ru'
 
 TIME_ZONE = 'UTC'
 
@@ -111,8 +119,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGOUT_URL = reverse_lazy('logout')
