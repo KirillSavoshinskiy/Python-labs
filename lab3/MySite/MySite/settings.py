@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MySite1.urls'
+ROOT_URLCONF = 'MySite.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MySite1.wsgi.application'
+WSGI_APPLICATION = 'MySite.wsgi.application'
 
 
 # Database
@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'MySite1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'carSaleDB',
+        'NAME': 'DB',
         'USER': 'admin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',

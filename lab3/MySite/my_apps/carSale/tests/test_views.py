@@ -1,10 +1,10 @@
-import unittest
 
+import pytest
 from django.contrib.auth.models import User
 from django.test import TestCase
 from my_apps.carSale.models import Company, EngineType, BodyType, Car
 from django.urls import reverse
-from my_apps.carSale.forms import LoginForm
+
 
 
 class CarListViewTest(TestCase):
@@ -25,11 +25,11 @@ class CarListViewTest(TestCase):
 
     def test_view_url_exist(self):
         resp = self.client.get('')
-        self.assertEqual(resp.status_code, 200)
+        assert resp.status_code == 200
 
     def test_view_url_accessible_by_name(self):
         resp = self.client.get(reverse('Home'))
-        self.assertEqual(resp.status_code, 200)
+        assert resp.status_code == 200
 
 
 class UserTest(TestCase):
@@ -45,6 +45,10 @@ class UserTest(TestCase):
     def test_login_html(self):
         resp = self.client.get('/login/')
         self.assertEqual(resp.status_code, 200)
+
+    def test_edit(self):
+        resp = self.client.get('/edit/')
+        self.assertEqual(resp.status_code, 302)
 
     def test_fail_login(self):
         resp = self.client.post(reverse('login'), {'username': self.test_user1.username, 'password': '12355'})

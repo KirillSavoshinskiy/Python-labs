@@ -20,6 +20,7 @@
         <a class="btn bg-transparent btn-outline-primary" href="{% url 'login' %}">Вход</a>
     {% endif %}
     {% if user.is_active %}
+         <a class="btn bg-transparent btn-outline-primary m-md-2" href="{% url 'edit' %}">Изменить профиль</a>
         <a class="btn bg-transparent btn-outline-primary m-md-2" href="{% url 'newCar' %}">Новое авто</a>
     {% endif %}
 </div>
