@@ -16,7 +16,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'carSale/static/')
 
 
-
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'savosh28@gmail.com'
+EMAIL_HOST_PASSWORD = '12436587'
+DEFAULT_FROM_EMAIL = 'savosh28@gmail.com'
+DEFAULT_TO_EMAIL = 'savosh28@gmail.com'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 

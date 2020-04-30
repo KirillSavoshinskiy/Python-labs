@@ -1,14 +1,55 @@
+from multiprocessing.pool import ThreadPool
+
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)
+
+
+class Mail(models.Model):
+    email_caption = models.CharField('Заголовок сообщения', max_length=100)
+    email_text = models.TextField('Текст сообщения')
+    email_date = models.DateField('Время отправки')
+    email_time = models.TimeField()
+    resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True}, blank=True)
+    check_send = models.BooleanField(default=False)
+
+    def __str__(self):
+        if not self.check_send:
+            self.check_send = True
+            self.send()
+            self.save()
+        return str(self.email_caption)
+
+    def send(self):
+        mess = render_to_string('carSale/email.html', {
+            'email_text': self.email_text,
+            'email_date': self.email_date,
+            'email_time': self.email_time
+        })
+
+        email_caption = self.email_caption
+        mount = self.resp.count()
+        pool = ThreadPool(mount)
+        result = []
+        for profile in self.resp.all():
+            to_email = profile.user.email
+            email = EmailMessage(email_caption, mess, to=[to_email])
+            result.append(email)
+        pool.map(send_mail, result)
+
+
+def send_mail(email):
+    email.send()
 
 
 class Company(models.Model):
