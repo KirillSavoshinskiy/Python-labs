@@ -1,0 +1,10 @@
+{% extends "carSale/wrapper.html" %}
+
+{% block content %}
+    <div class="container  bg-light shadow" style="border-radius: 5px;">
+        <form method="post">{% csrf_token %}
+            <p>Вы уверены в том, что хотите удалить"{{ object }}"?</p>
+            <button type="submit" class="btn btn-sm btn-outline-secondary">Удалить</button>
+        </form>
+    </div>
+{% endblock %}

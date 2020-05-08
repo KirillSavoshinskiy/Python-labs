@@ -17,7 +17,10 @@
         }
     </style>
     {% if car %}
-        <h4 style="margin-left: 5%;" class="font-weight-bold">{{ car.company }} {{ car.name_model }} ({{ car.price }}$)</h4>
+        <h4 style="margin-left: 5%;" class="font-weight-bold">
+            {{ car.company }} {{ car.name_model }} ({{ car.price }}$)</h4>
+        <h5 style="margin-left: 5%;" class="font-weight-bold">Контакты: {{ car.created_by }}
+            ({{ car.phone_number }})</h5>
         <div class="container  bg-light" style="border-radius: 5px;">
             <div class="row">
                 <div class="row  box-shadow">
@@ -48,17 +51,29 @@
 
                 <div class="col">
                     {% if car.img %}
-                                <figure>
-                                    <img class="card-img-top" alt="images/2018-Audi-RS6-Avant-Performance-01-4027-default-large_IPmBsXi.jpeg" style="border-radius: 5px;height: 460px; width: 100%;
-                                display:flow-root" src="{{ car.img.url }}">
-                                </figure>
+                        <figure>
+                            {% load static %}
+                            <img class="card-img-top"
+                                 alt="/1/images/2018-Audi-RS6-Avant-Performance-01-4027-default-large.jpeg" style="border-radius: 5px;height: 460px; width: 100%;
+                                display:flow-root"
+                                 src=" {{ car.img.url }}">
+                        </figure>
                     {% endif %}
-                <div class="col">
-                     <div class="card fieldBox">
-                <h5 style="padding: 1%">Описание:</h5>
-                <h6 style="padding: 1%">{{ car.description }}(Номер продавца:{{ car.phone_number }})</h6>
-                     </div>
-                </div>
+                    <div class="col">
+                        <div class="card fieldBox">
+                            <h5 style="padding: 1%">Описание:</h5>
+                            <h6 style="padding: 1%">{{ car.description }}</h6>
+                        </div>
+                        <div class="card fieldBox">
+                            {% if request.user == car.created_by %}
+
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="{% url 'deleteCar' car.pk %}">Удалить</a></button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="{% url 'updateCar' car.pk %}">Обновить данные</a></button>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

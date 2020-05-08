@@ -1,4 +1,3 @@
-
 import sys
 import os
 
@@ -7,14 +6,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'my_apps'))
 
-
-IMAGE_DIR = os.path.join(BASE_DIR, 'images')
-IMAGE_ROOT = IMAGE_DIR
-IMAGE_URL = '/images/'
+MEDIA_DIR = os.path.join(BASE_DIR, 'images')
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'carSale/static/')
-
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -23,6 +20,8 @@ EMAIL_HOST_USER = 'savosh28@gmail.com'
 EMAIL_HOST_PASSWORD = '12436587'
 DEFAULT_FROM_EMAIL = 'savosh28@gmail.com'
 DEFAULT_TO_EMAIL = 'savosh28@gmail.com'
+
+DATE_INPUT_FORMATS = ['%Y']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -33,7 +32,6 @@ SECRET_KEY = '!8@dl2(+6do@ystks$)gi8+(qd3(1%9%2e#h84hgq_3t^xm%b+'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -78,14 +76,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MySite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DB',
+        'NAME': 'newDB',
         'USER': 'admin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
@@ -111,25 +108,36 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['file_info', 'file_debug'],
+            'level': 'DEBUG'
         },
     },
+    'handlers': {
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'log/info.log',
+            'formatter': 'simpleRe'
+        },
+        'file_debug': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'log/debug.log',
+            'formatter': 'simpleRe'
+        },
+    },
+    'formatters': {
+        'simpleRe': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        }
+    }
 }
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'ru-Ru'
 
@@ -140,9 +148,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'

@@ -1,11 +1,8 @@
 from multiprocessing.pool import ThreadPool
 
-from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -17,17 +14,14 @@ class Profile(models.Model):
 
 class Mail(models.Model):
     email_caption = models.CharField('Заголовок сообщения', max_length=100)
-    email_text = models.TextField('Текст сообщения')
-    email_date = models.DateField('Время отправки')
-    email_time = models.TimeField()
-    resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True}, blank=True)
-    check_send = models.BooleanField(default=False)
+    email_text = models.TextField('Текст сообщения', null=True)
+    email_date = models.DateField('Время отправки', null=True)
+    email_time = models.TimeField(null=True)
+    resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True})
 
     def __str__(self):
-        if not self.check_send:
-            self.check_send = True
-            self.send()
-            self.save()
+        self.send()
+        self.save()
         return str(self.email_caption)
 
     def send(self):
@@ -78,17 +72,18 @@ class BodyType(models.Model):
 
 
 class Car(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
-    name_model = models.CharField(max_length=30, null=True)
-    engine = models.ForeignKey(EngineType, on_delete=models.CASCADE, null=True)
-    body = models.ForeignKey(BodyType, on_delete=models.CASCADE, null=True)
-    description = models.TextField(null=True)
-    img = models.ImageField(upload_to='images/', null=True, blank=True)
-    price = models.IntegerField(null=True)
-    year = models.DateField(null=True)
-    mileage = models.IntegerField()
-    engine_volume = models.FloatField()
-    phone_number = models.CharField(max_length=19)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name='Выберите марку авто', blank=False)
+    name_model = models.CharField('Название модели', max_length=30, blank=False)
+    engine = models.ForeignKey(EngineType, on_delete=models.CASCADE, verbose_name='Выберите тип двигателя', blank=False)
+    body = models.ForeignKey(BodyType, on_delete=models.CASCADE, verbose_name='Выберите тип кузова', blank=False)
+    description = models.TextField('Описание авто', blank=False)
+    img = models.ImageField('Фото авто', upload_to='images/', null=True, blank=True)
+    price = models.IntegerField('Цена(в $)', blank=False)
+    year = models.DateField('Год выпуска', blank=False)
+    mileage = models.IntegerField('Пробег', blank=False)
+    engine_volume = models.FloatField('Объём двигателя', blank=False)
+    phone_number = models.CharField('Телефон продавца', max_length=19, blank=False)
 
     def __str__(self):
         return self.name_model
