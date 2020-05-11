@@ -1,6 +1,7 @@
 {% autoescape off %}
-    {{ email_text }}
-    Время отправки:{{ email_date }}{{ email_time }}
+    {{ user.username }}, Вас приветствует компания "AutoSale"
+    Перейдите по ссылке для верификации аккаунта:
+    {{ protocol }}://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 {% endautoescape %}
 
  

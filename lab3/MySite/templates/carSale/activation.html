@@ -1,0 +1,13 @@
+ {% extends "carSale/wrapper.html" %}
+
+ {% block content%}
+      <form style="margin: 0 0 0 3%;" class="m-md-2" action="." method="post">
+        <div class="card shadow">
+            <div style="padding: 3%">
+                <h5>Ваш аккаунт успешно верифицирован</h5>
+                <button type="button" class="btn btn-sm btn-outline-secondary"><a
+                                        href="{% url 'login' %}">Войти</a></button>
+            </div>
+        </div>
+    </form>
+ {% endblock %}

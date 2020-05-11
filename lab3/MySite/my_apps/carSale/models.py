@@ -3,6 +3,8 @@ from multiprocessing.pool import ThreadPool
 from django.core.mail import EmailMessage
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -11,13 +13,26 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     verified = models.BooleanField(default=False)
 
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        if instance.is_active is True:
+            instance.profile.verified = True
+        else:
+            instance.profile.verified = False
+        instance.profile.save()
+
 
 class Mail(models.Model):
     email_caption = models.CharField('Заголовок сообщения', max_length=100)
     email_text = models.TextField('Текст сообщения', null=True)
     email_date = models.DateField('Время отправки', null=True)
     email_time = models.TimeField(null=True)
-    resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True})
+    resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True}, blank=False)
 
     def __str__(self):
         self.send()
@@ -32,8 +47,8 @@ class Mail(models.Model):
         })
 
         email_caption = self.email_caption
-        mount = self.resp.count()
-        pool = ThreadPool(mount)
+        count = self.resp.count()
+        pool = ThreadPool(count)
         result = []
         for profile in self.resp.all():
             to_email = profile.user.email

@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'MySite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'newDB',
+        'NAME': 'myDB',
         'USER': 'admin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
@@ -122,17 +122,17 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': 'log/info.log',
-            'formatter': 'simpleRe'
+            'formatter': 'myFormatter'
         },
         'file_debug': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': 'log/debug.log',
-            'formatter': 'simpleRe'
+            'formatter': 'myFormatter'
         },
     },
     'formatters': {
-        'simpleRe': {
+        'myFormatter': {
             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
             'style': '{',
         }

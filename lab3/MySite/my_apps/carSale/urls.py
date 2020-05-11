@@ -10,5 +10,6 @@ urlpatterns = [
      path('logout/', views.user_logout, name='logout'),
      path('newCar/', views.AutoCreateView.as_view(), name='newCar'),
      path('<int:pk>/delete/', views.AutoDeleteView.as_view(), name='deleteCar'),
-     path('<int:pk>/update/', views.AutoUpdateView.as_view(), name='updateCar')
+     path('<int:pk>/update/', views.AutoUpdateView.as_view(), name='updateCar'),
+     path('activate/<uidb64>/<token>/', views.activate, name='activate')
 ]
