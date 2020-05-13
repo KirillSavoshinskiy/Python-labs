@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.forms import forms
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -45,6 +46,7 @@ class AutoCreateView(generic.CreateView):
     form_class = CarForm
     model = Car
     template_name = 'carSale/newCar.html'
+    success_url = reverse_lazy('Home')
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -56,26 +58,27 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data['password'])
             new_user.is_activate = False
             new_user.save()
             use_https = request.is_secure()
             current_site = get_current_site(request)
             email_caption = 'Активация аккаунта'
             token = user_token_generator.make_token(new_user)
-            message = render_to_string('carSale/email.html', {
-                'user': new_user,
-                'domain': current_site.domain,
-                'token': token,
-                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
-                'protocol': 'https' if use_https else 'http',
-            })
+            message = render_to_string('carSale/verificationEmail.html', {
+                    'user': new_user,
+                    'domain': current_site.domain,
+                    'token': token,
+                    'uid': urlsafe_base64_encode(force_bytes(new_user.pk)),
+                    'protocol': 'https' if use_https else 'http',
+                })
             to_email = user_form.cleaned_data.get('email')
             email = EmailMessage(
                 email_caption, message, to=[to_email]
             )
             email.send()
             return render(request, 'carSale/emailAlert.html')
+        else:
+            return render(request, 'carSale/register.html', {'user_form': user_form})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'carSale/register.html', {'user_form': user_form})

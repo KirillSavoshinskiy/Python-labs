@@ -33,19 +33,21 @@ class Mail(models.Model):
     email_date = models.DateField('Время отправки', null=True)
     email_time = models.TimeField(null=True)
     resp = models.ManyToManyField(Profile, limit_choices_to={'verified': True}, blank=False)
+    posted = models.BooleanField(default=False)
 
     def __str__(self):
-        self.send()
-        self.save()
+        if not self.posted:
+            self.posted = True
+            self.send()
+            self.save()
         return str(self.email_caption)
 
     def send(self):
-        mess = render_to_string('carSale/email.html', {
+        mess = render_to_string('carSale/mail.html', {
             'email_text': self.email_text,
             'email_date': self.email_date,
             'email_time': self.email_time
         })
-
         email_caption = self.email_caption
         count = self.resp.count()
         pool = ThreadPool(count)

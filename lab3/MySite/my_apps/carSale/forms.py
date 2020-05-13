@@ -12,19 +12,12 @@ class ProfileEditForm(forms.ModelForm):
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
     email = forms.CharField(label='Введи email', required=True)
     first_name = forms.CharField(label='Введите ваше имя', required=True)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email')
-
-    def check(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
+        fields = ('username', 'first_name', 'email', 'password')
 
 
 class LoginForm(forms.Form):
